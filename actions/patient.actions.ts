@@ -72,9 +72,9 @@ export const getPatient = async (userId: string) => {
     const patients = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_PATIENT_COLLECTION_ID!,
-      [Query.equal("$id", userId)]
+      [Query.equal("userId", userId)]
     );
-
+    console.log(patients);
     if (patients.total === 0 || !patients.documents[0]) {
       throw new Error("Patient not found");
     }

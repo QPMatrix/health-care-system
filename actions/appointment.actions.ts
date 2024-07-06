@@ -4,6 +4,7 @@ import { formatDateTime, parseStringify } from "@/lib/utils";
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
+import { sendSMSNotification } from "./sms.actions";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -39,16 +40,23 @@ export const updateAppointment = async ({
 
     if (!updatedAppointment) throw Error;
 
-    const smsMessage = `Greetings from CarePulse. ${
-      type === "schedule"
-        ? `Your appointment is confirmed for ${
-            formatDateTime(appointment.schedule!).dateTime
-          } with Dr. ${appointment.primaryPhysician}`
-        : `We regret to inform that your appointment for ${
-            formatDateTime(appointment.schedule!).dateTime
-          } is cancelled. Reason:  ${appointment.cancellationReason}`
-    }.`;
-    //   await sendSMSNotification(userId, smsMessage);
+    const smsMessage = `Greetings from CarePulse,
+
+${
+  type === "schedule"
+    ? `Your appointment is confirmed for ${
+        formatDateTime(appointment.schedule!).dateTime
+      } with Dr. ${appointment.primaryPhysician}.`
+    : `Unfortunately, your appointment scheduled for ${
+        formatDateTime(appointment.schedule!).dateTime
+      } has been cancelled.
+        Reason: ${appointment.cancellationReason}.`
+}
+
+Thank you,
+CarePulse Team`;
+    console.log(userId);
+    await sendSMSNotification(userId, smsMessage);
 
     revalidatePath("/admin");
     return parseStringify(updatedAppointment);
