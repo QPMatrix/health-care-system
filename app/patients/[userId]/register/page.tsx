@@ -1,7 +1,12 @@
+import { getUser } from "@/actions/patient.actions";
+import { RegisterForm } from "@/components/forms/register-form";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-const Register = () => {
+const Register = async ({ params: { userId } }: SearchParamProps) => {
+  const year = new Date();
+  const user = await getUser(userId);
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
@@ -10,11 +15,22 @@ const Register = () => {
             src="/assets/icons/logo-full.svg"
             height={1000}
             width={1000}
-            alt="Carepulse"
+            alt="patient"
             className="mb-12 h-10 w-fit"
           />
+          <RegisterForm user={user} />
+          <p className="copyright py-12">
+            © {year.getFullYear().toString()} QPMatrix
+          </p>
         </div>
       </section>
+      <Image
+        src="/assets/images/register-img.png"
+        height={1000}
+        width={1000}
+        alt="patient"
+        className="side-img max-w-[390px]"
+      />
     </div>
   );
 };
