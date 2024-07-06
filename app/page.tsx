@@ -1,12 +1,14 @@
 import { PatientForm } from "@/components/forms/patient-form";
+import PassKeyModal from "@/components/modal/pass-key";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default function Home({ searchParams }: SearchParamProps) {
+  const isAdmin = searchParams.admin === "true";
   const year = new Date();
   return (
     <div className="flex h-screen max-h-screen">
-      {/* TODO: OTP Verification | Pass key modal */}
+      {isAdmin && <PassKeyModal />}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
           <Image
