@@ -67,3 +67,23 @@ export const registerPatient = async ({
     console.log(error);
   }
 };
+export const getPatient = async (userId: string) => {
+  try {
+    const patients = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_PATIENT_COLLECTION_ID!,
+      [Query.equal("$id", userId)]
+    );
+
+    if (patients.total === 0 || !patients.documents[0]) {
+      throw new Error("Patient not found");
+    }
+
+    return parseStringify(patients.documents[0]);
+  } catch (error: any) {
+    console.error(
+      "An error occurred while retrieving the patient details:",
+      error.message
+    );
+  }
+};
