@@ -1,4 +1,4 @@
-import PatientForm from "@/components/forms/patient-form";
+import { PatientForm } from "@/components/forms/patient-form";
 import Image from "next/image";
 import Link from "next/link";
 

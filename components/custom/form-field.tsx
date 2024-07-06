@@ -11,9 +11,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form";
-import { FormFieldType } from "../forms/patient-form";
 import Image from "next/image";
 import PhoneInput from "react-phone-number-input";
+export enum FormFieldType {
+  INPUT = "input",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  CHECKBOX = "checkbox",
+  DATE_PICKER = "datePicker",
+  SELECT = "select",
+  SKELETON = "skeleton",
+}
+
 interface CustomProps {
   control: Control<any>;
   fieldType: FormFieldType;
@@ -59,7 +68,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             defaultCountry="IL"
             placeholder={placeholder}
             international
-            withCountryCode
+            withcountrycode="true"
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
